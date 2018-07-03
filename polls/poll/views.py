@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Question
 
 def index(request):
-    return HttpResponse("Hello Django")
+    latest_questions = Question.objects.order_by('-pub_date')[:5]
+    result = '<br> '.join([q.question_text for q in latest_questions])
+    return HttpResponse(result)
 
 def details(request, question_id):
     return HttpResponse("Question: %s" % question_id)
